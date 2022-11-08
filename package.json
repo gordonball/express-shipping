@@ -15,7 +15,7 @@
     "colors": "*",
     "cors": "*",
     "express": "^5.0.0-beta.1",
-    "jsonschema": "*",
+    "jsonschema": "^1.4.1",
     "pg": "^8.8.0"
   },
   "description": "",

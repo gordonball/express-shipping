@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://our.company.com/order.schema.json",
+    "title": "Order",
+    "description": "Warehouse order",
+    "type": "object",
+    "properties": {
+        "productId": {"type": "integer",
+                        "minimum": 1000},
+        "name": {"type": "string"},
+        "addr": {"type": "string"},
+        "zipcode": {"type": "string"}
+    },
+    "additionalProperties": false,
+    "required": ["productId", "name", "addr", "zipcode"]
+}
+
