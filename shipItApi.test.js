@@ -1,11 +1,28 @@
 "use strict";
 
+const axios = require("axios");
+const AxiosMockAdapter = require("axios-mock-adapter");
+
+const axiosMock = new AxiosMockAdapter(axios);
+
+
 const {
   shipProduct,
 } = require("./shipItApi");
 
 
 test("shipProduct", async function () {
+
+  axiosMock.onPost("http://localhost:3001/ship")
+    .reply(200, {
+      receipt: {
+        itemId: 1001,
+        name: 'stuff',
+        addr: '123 blah street',
+        shipId: 1
+      }
+})
+
   const shipId = await shipProduct({
     productId: 1000,
     name: "Test Tester",
@@ -13,5 +30,9 @@ test("shipProduct", async function () {
     zip: "12345-6789",
   });
 
-  expect(shipId).toEqual(expect.any(Number));
+  console.log("SHIP ID", shipId)
+
+  expect(shipId).toEqual(1);
 });
+
+
