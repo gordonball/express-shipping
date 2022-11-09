@@ -14,7 +14,7 @@ describe("POST /", function () {
       zipcode: "12345-6789",
     });
 
-  
+
   });
 
   test("throws error if empty request body", async function () {
@@ -24,38 +24,40 @@ describe("POST /", function () {
     expect(resp.statusCode).toEqual(400);
   });
 
-  test("throws error for invalid zipcode format", async function(){
+  test("throws error for invalid zipcode format", async function () {
     const resp = await request(app)
       .post("/shipments")
       .send(
         {
-          "productId":1001,
-          "name":"good name",
-          "addr":"123 good place",
-          "zipcode":80000
+          "productId": 1001,
+          "name": "good name",
+          "addr": "123 good place",
+          "zipcode": 80000
         }
       );
-      expect(resp.statusCode).toEqual(400);
-      console.log("What is resp?????", resp);
-      expect(resp.text)
-        .toContain("instance.zipcode is not of a type(s) string");
+    expect(resp.statusCode).toEqual(400);
+    expect(resp.body.error.message.length).toEqual(1);
+    expect(resp.body.error.message[0])
+      .toEqual("instance.zipcode is not of a type(s) string");
   });
 
-  test("throws error for missing zipcode and invalid address", async function(){
+  test("throws error for missing zipcode and invalid address", async function () {
     const resp = await request(app)
       .post("/shipments")
       .send(
         {
-          "productId":1001,
-          "name":"good name",
-          "addr":123,
+          "productId": 1001,
+          "name": "good name",
+          "addr": 123,
         }
       );
-      expect(resp.statusCode).toEqual(400);
-      console.log("What is resp?????", resp.json);
-      expect(resp.text).toContain("instance.addr is not of a type(s) string");
-      
-      expect(resp.text).toContain("instance requires property \"zipcode\"");
+    expect(resp.statusCode).toEqual(400);
+    expect(resp.body.error.message.length).toEqual(2);
+    expect(resp.body.error.message[0])
+      .toContain("instance.addr is not of a type(s) string");
+
+    expect(resp.body.error.message[1])
+      .toContain("instance requires property \"zipcode\"");
 
   });
 });
