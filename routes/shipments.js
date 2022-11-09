@@ -19,14 +19,20 @@ const { json } = require("express");
  */
 
 router.post("/", async function (req, res, next) {
+  console.log("/shipItApi/ route entered");
+
   if (req.body === undefined) {
     throw new BadRequestError();
   }
 
   const result = jsonschema.validate(
-    req.body?.order, orderSchema, { required: true });
+    req.body,
+    orderSchema,
+    { required: true }
+  );
   if (!result.valid) {
-    const errs = results.errors.map(err => err.stack);
+    console.log("In bad validation");
+    const errs = result.errors.map(err => err.stack);
     throw new BadRequestError(errs);
   }
 
