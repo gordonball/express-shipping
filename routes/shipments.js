@@ -33,6 +33,7 @@ router.post("/", async function (req, res, next) {
   if (!result.valid) {
     console.log("In bad validation");
     const errs = result.errors.map(err => err.stack);
+    console.log("err.stack>>>>>>>>>>>>>>>>>>>>",errs);
     throw new BadRequestError(errs);
   }
 
